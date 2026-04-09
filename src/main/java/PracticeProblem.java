@@ -4,24 +4,36 @@ public class PracticeProblem {
 
 	}
 
-	public static void q1() {
-		//Write question 1 code here
+	public static int searchMazeMoves(String[][] grid) {
+		int row = grid.length-1;
+		int col = 0;
+		int a = searchMazeMovesReal(grid, row, col);
+		if (a == Integer.MAX_VALUE) {
+			return -1;
+		}
+		return a;
 	}
 
-	public static void q2() {
-		//Write question 2 code here
-	}
-
-	public static void q3() {
-		//Write question 3 code here
-	}
-
-	public static void q4() {
-		//Write question 4 code here
-	}
-
-	public static void q5() {
-		//Write question 5 code here
+	public static int searchMazeMovesReal(String[][] grid, int row, int col) {
+		if (row < 0 || col >= grid[0].length || row >= grid.length || col < 0) {
+			return Integer.MAX_VALUE;
+		}
+		if (grid[row][col].equals("F")) {
+			return 0;
+		}
+		if (grid[row][col].equals("*")) {
+			return Integer.MAX_VALUE;
+		}
+		grid[row][col] = "*";
+		int a = searchMazeMovesReal(grid, row-1, col);
+		int b = searchMazeMovesReal(grid, row, col+1);
+		int c = searchMazeMovesReal(grid, row, col-1);
+		int d = searchMazeMovesReal(grid, row+1, col);
+		grid[row][col] = "";
+		if (Math.min(Math.min(a, b), Math.min(c, d)) == Integer.MAX_VALUE) {
+			return Integer.MAX_VALUE;
+		}
+		return Math.min(Math.min(a, b), Math.min(c, d))+1;
 	}
 
 }
